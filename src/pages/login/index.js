@@ -3,6 +3,8 @@ import { Form, Input, Icon, Button,message } from 'antd';
 import logo from "./logo.png";
 import './index.less'
 import reqLogin from '../../api';
+import data from '../../utils/store'
+import {setItem} from '../../utils/storage'
 
 const Item = Form.Item;
 
@@ -35,7 +37,16 @@ class Login extends Component{
             //请求成功
             console.log(response);
             //提升请求成功
-            message.success('登录成功~',3)
+            message.success('登录成功~',3);
+            //存储用户数据到内存中
+            data.user=response;
+            //存储用户数据到本地中
+            setItem(response);
+
+            // 跳转到admin页面 -- 修改url地址为 /
+            // 编程式导航
+            this.props.history.replace('/')
+
             })
           .catch((error)=>{
             //请求失败
