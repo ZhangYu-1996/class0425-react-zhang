@@ -1,8 +1,8 @@
 import React, {Component } from 'react';
 import { Form, Input, Icon, Button,message } from 'antd';
-import logo from "./logo.png";
+import logo from "../../assets/images/logo.png";
 import './index.less'
-import reqLogin from '../../api';
+import {reqLogin} from '../../api';
 import data from '../../utils/store'
 import {setItem} from '../../utils/storage'
 
