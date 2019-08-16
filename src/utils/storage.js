@@ -8,6 +8,7 @@ function getItem() {
   return JSON.parse(localStorage.getItem(USER_KEY))
 }
 
+//下面的代码片段访问了当前域名下的本地 Storage 对象，并通过 Storage.setItem() 增加了一个数据项目。
 function setItem(user) {
   localStorage.setItem(USER_KEY,JSON.stringify(user))
 }

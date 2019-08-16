@@ -29,6 +29,7 @@ class Login extends Component{
 
   login = (e)=>{
     e.preventDefault();
+    //validateFields校验并获取一组输入域的值与 Error
     this.props.form.validateFields((err,value)=>{
       if (!err){
         const {username,password} = value;

@@ -5,6 +5,7 @@ import {Link,withRouter} from "react-router-dom";
 const { SubMenu,Item } = Menu;
 
 class LeftNav extends Component{
+
   constructor(props) {
     super(props);
     //获取路径名称
@@ -45,7 +46,6 @@ createMenu = (path)=> {
 };
   render() {
 
-
     return  <Menu theme="dark" defaultSelectedKeys={[this.selectPath]} defaultOpenKeys={[this.openKey]} mode="inline">
       {
         this.menus
@@ -53,6 +53,6 @@ createMenu = (path)=> {
     </Menu>
   }
 }
-
 export default withRouter(LeftNav);
+//目的就是让被修饰的组件可以从属性中获取history,location,match
 
