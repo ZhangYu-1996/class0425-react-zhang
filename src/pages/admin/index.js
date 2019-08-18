@@ -1,5 +1,5 @@
 import React, {Component } from 'react';
-import {Link} from 'react-router-dom';
+import {Link,Route,Switch,Redirect} from 'react-router-dom';
 import {getItem} from '../../utils/storage';
 
 import {Spin,message,Layout} from 'antd'
@@ -10,6 +10,15 @@ import logo from '../../assets/images/logo.png'
 
 import  LeftNav from '../../components/left-nav'
 import HeaderMain from '../../components/header-main'
+
+import Home from '../home';
+import Category from '../category';
+import Product from '../product';
+import User from '../user';
+import Role from '../role';
+import Bar from '../charts/bar';
+import Line from '../charts/line';
+import Pie from '../charts/pie';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -75,7 +84,6 @@ class Admin extends Component{
 
     return  <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-
         <Link to="/home" className="admin-logo">
           <img src={logo} alt="logo"/>
           <h1 style={{display:isDisplay}}>硅谷后台</h1>
@@ -89,13 +97,21 @@ class Admin extends Component{
           <HeaderMain/>
         </Header>
         <Content style={{  margin: '65px 16px 0 16px' }}>
-          {/*<Breadcrumb style={{ margin: '16px 0' }}>*/}
-          {/*  /!*<Breadcrumb.Item>User</Breadcrumb.Item>*!/*/}
-          {/*  /!*<Breadcrumb.Item>Bill</Breadcrumb.Item>*!/*/}
-          {/*</Breadcrumb>*/}
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>Bill is a cat.</div>
+          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+            <Switch>
+              <Route path="/home" component={Home}/>
+              <Route path="/category" component={Category}/>
+              <Route path="/product" component={Product}/>
+              <Route path="/user" component={User}/>
+              <Route path="/role" component={Role}/>
+              <Route path="/charts/bar" component={Bar}/>
+              <Route path="/charts/line" component={Line}/>
+              <Route path="/charts/pie" component={Pie}/>
+              <Redirect to="/home"/>
+            </Switch>
+          </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>
       </Layout>
     </Layout>
   }
