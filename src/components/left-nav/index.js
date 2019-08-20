@@ -7,11 +7,31 @@ const { SubMenu,Item } = Menu;
 class LeftNav extends Component{
 
   constructor(props) {
-    super(props);
-    //获取路径名称
-    this.selectPath = this.props.location.pathname;
-    //展开菜单
-    this.menus = this.createMenu(this.selectPath)
+    super(props); // 必须声明prop，否则this.props就是undefined
+    // //获取路径名称
+    // this.selectPath = this.props.location.pathname;
+    // //展开菜单
+    // this.menus = this.createMenu(this.selectPath)
+    let { pathname } = this.props.location;
+    if (pathname.startsWith('/product')) {
+      pathname = '/product'
+    }
+    this.menus = this.createMenu(pathname);
+
+    this.state = {
+      selectedKey:''
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    let { pathname } = nextProps.location;
+    // startsWith 以什么开头
+    if (pathname.startsWith('/product')) {
+      pathname = '/product'
+    }
+    return {
+      selectedKey: pathname
+    }
   }
 
   createItem=(menu)=>{
@@ -45,8 +65,7 @@ createMenu = (path)=> {
   })
 };
   render() {
-
-    return  <Menu theme="dark" defaultSelectedKeys={[this.selectPath]} defaultOpenKeys={[this.openKey]} mode="inline">
+    return  <Menu theme="dark" selectedKeys={[this.state.selectedKey]} defaultOpenKeys={[this.openKey]} mode="inline">
       {
         this.menus
       }

@@ -7,7 +7,7 @@ import axios from 'axios';
  */
 
 //区别开发环境和生产环境
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 const  BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:5000';
 // 创建axios的实例
 const axiosInstance = axios.create({

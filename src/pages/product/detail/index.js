@@ -1,9 +1,9 @@
 import React, {Component } from 'react';
-class User extends Component{
+class Detail extends Component{
   render() {
     return  <div>
-      User
+      detail
     </div>
   }
 }
-export default User ;
+export default Detail;

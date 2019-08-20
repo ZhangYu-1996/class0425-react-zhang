@@ -11,6 +11,7 @@ export default class Category extends Component {
   state = {
     categories: [],
     category: {},
+    subCategory:{},
     subCategories:[],
     isShowAddCategory: false,
     isShowSubCategory:false,
@@ -89,10 +90,11 @@ export default class Category extends Component {
   // 2. 点击时将category数据传入form组件中
   showUpdateCategoryName = (category) => {
     return () => {
-      // console.log(category);
+      console.log(category);
+      const key = category.parentId ===0 ? 'category' : 'subCategory';
       this.setState({
         isShowUpdateCategoryName: true,
-        category
+        [key]:category
       });
     }
   };
@@ -129,7 +131,7 @@ export default class Category extends Component {
             // res就是添加成功的分类数据
             // console.log(res);
             // 需要展示添加成功的分类数据
-            const { isShowSubCategory } = this.state;
+            const { isShowSubCategory,category } = this.state;
             const isSubCategories = +parentId !== 0;
             const key = isSubCategories ? 'subCategories' : 'categories';
             message.success('添加分类成功~', 3);
@@ -140,9 +142,13 @@ export default class Category extends Component {
              添加二级分类数据，不更新
            如果在二级分类
              添加一级分类数据，更新 categories
-             添加二级分类数据，更新 subCategories
+             添加二级分类数据，如果当前的一级分类和要更新的一级分类一样，才更新 subCategories
+               总结：
+                  一级分类必须更新
+                  二级分类，满足如果当前的一级分类和要更新的一级分类一样，才更新
           */
-            if (!isShowSubCategory && isSubCategories){
+            if ( isShowSubCategory && parentId !== category._id){
+              // 是在一级分类中添加二级分类，不需要更新
               return;
             }
             this.setState({
@@ -172,12 +178,16 @@ export default class Category extends Component {
       if (!err) {
         // 发送请求
         // console.log(values);
+        const { isShowSubCategory } = this.state;
         const { categoryName } = values;
-        const categoryId = this.state.category._id;
+
+        const key = isShowSubCategory ? 'subCategory' :'category';
+        const categoryId = this.state[key]._id;
+
         reqUpdateCategoryName(categoryId,categoryName)
           .then((res) => {
             message.success('更新分类名称成功~', 3);
-            const key = this.state.isShowSubCategory ? 'subCategories': 'categories';
+            const key = isShowSubCategory ? 'subCategories': 'categories';
             // 更新状态数据
             this.setState({
               [key]: this.state[key].map((category) => {
@@ -208,8 +218,8 @@ export default class Category extends Component {
   };
 
   render() {
-    const { categories,subCategories,category, isShowAddCategory, isShowSubCategory,isShowUpdateCategoryName } = this.state;
-
+    const { categories,subCategories,subCategory,category, isShowAddCategory, isShowSubCategory,isShowUpdateCategoryName } = this.state;
+    // console.log(categories, category);
     // 每一行的具体数据
     /*const data = [
       {
@@ -267,7 +277,7 @@ export default class Category extends Component {
         cancelText="取消"
         width={300}
       >
-        <UpdateCategoryNameForm category={category} ref={this.updateCategoryNameFormRef}/>
+        <UpdateCategoryNameForm category={isShowSubCategory ? subCategory : category} ref={this.updateCategoryNameFormRef}/>
       </Modal>
 
     </Card>;
